@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
@@ -30,12 +32,19 @@ class Users
         return $this->id;
     }
 
+    public function setId(int $id): ?self
+    {
+        $this->id = $id;
+        
+        return $this;
+    }
+    
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setUsername(string $username): static
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
@@ -47,7 +56,7 @@ class Users
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -59,7 +68,7 @@ class Users
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -71,7 +80,7 @@ class Users
         return $this->hasFeedbackReport;
     }
 
-    public function setHasFeedbackReport(bool $hasFeedbackReport): static
+    public function setHasFeedbackReport(bool $hasFeedbackReport): self
     {
         $this->hasFeedbackReport = $hasFeedbackReport;
 
