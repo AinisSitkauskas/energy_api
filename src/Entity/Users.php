@@ -26,6 +26,9 @@ class Users
 
     #[ORM\Column]
     private ?bool $hasFeedbackReport = null;
+    
+    #[ORM\OneToOne(targetEntity: "App\Entity\UserInformation", mappedBy: "user")]
+    private ?UserInformation $userInformation = null;
 
     public function getId(): ?int
     {
@@ -86,4 +89,16 @@ class Users
 
         return $this;
     }
+    
+    public function getUserInformation(): ?UserInformation
+    {
+        return $this->userInformation;
+    }
+    
+    public function setUserInformation(UserInformation $userInformation): self
+    {
+        $this->userInformation = $userInformation;
+        
+        return $this;
+    } 
 }

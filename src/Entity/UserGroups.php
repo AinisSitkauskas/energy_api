@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: UserGroupsRepository::class)]
 class UserGroups
 {
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
