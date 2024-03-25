@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\UserInformation;
+use App\Entity\EnergyDailyConsumption;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class UserInformationRepository extends ServiceEntityRepository
+class EnergyDailyConsumptionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserInformation::class);
+        parent::__construct($registry, EnergyDailyConsumption::class);
     }
 }
