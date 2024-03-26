@@ -24,7 +24,7 @@ class EnergyDailyConsumption
     #[ORM\JoinColumn(name: "energy_type_id", referencedColumnName: "id")]
     private ?EnergyTypes $energyType = null;
     
-    #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 5)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 1)]
     private ?float $consumption = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]

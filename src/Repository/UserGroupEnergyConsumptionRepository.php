@@ -23,6 +23,7 @@ class UserGroupEnergyConsumptionRepository extends ServiceEntityRepository
             ->innerJoin('ugc.userGroup', 'ug')
             ->where('ug.id = :userGroupId')
             ->setParameter('userGroupId', $user->getUserInformation()->getUserGroup()->getId())
+            ->orderBy('ugc.averageConsumption', 'ASC')
             ->getQuery()
             ->getResult();
     }

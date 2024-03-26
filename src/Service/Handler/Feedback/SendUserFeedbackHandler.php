@@ -26,8 +26,8 @@ class SendUserFeedbackHandler
 
     public function handle(Users $user): void
     {
-        $consumptions = $this->energyDailyConsumptionRepository->findUserConsumptionBetweenDates($user, (new \DateTime('-1 week ago'))->setTime(0, 0), new \DateTime());
-        $oldConsumptions = $this->energyDailyConsumptionRepository->findUserConsumptionBetweenDates($user, (new \DateTime('-2 week ago'))->setTime(0, 0), (new \DateTime('-1 week ago'))->setTime(0, 0));
+        $consumptions = $this->energyDailyConsumptionRepository->findUserConsumptionBetweenDates($user, (new \DateTime('1 week ago'))->setTime(0, 0), new \DateTime());
+        $oldConsumptions = $this->energyDailyConsumptionRepository->findUserConsumptionBetweenDates($user, (new \DateTime('2 week ago'))->setTime(0, 0), (new \DateTime('1 week ago'))->setTime(0, 0));
         $formattedConsumptions = $this->consumptionDataFormatter->format($consumptions);
         $formattedOldConsumptions = $this->consumptionDataFormatter->format($oldConsumptions);
 

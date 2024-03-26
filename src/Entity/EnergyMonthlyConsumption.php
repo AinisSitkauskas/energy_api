@@ -24,11 +24,11 @@ class EnergyMonthlyConsumption
     #[ORM\JoinColumn(name: "energy_type_id", referencedColumnName: "id")]
     private ?EnergyTypes $energyType = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 5)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 1)]
     private ?string $consumption = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function getId(): ?int
     {
@@ -78,12 +78,12 @@ class EnergyMonthlyConsumption
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

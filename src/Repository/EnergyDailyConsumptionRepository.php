@@ -18,13 +18,13 @@ class EnergyDailyConsumptionRepository extends ServiceEntityRepository
 
     public function findUserConsumptionBetweenDates(Users $user, \DateTime $dateFrom, \DateTime $dateTo): array
     {
-        return $this->createQueryBuilder('emc')
-            ->select('emc', 'u', 'et')
-            ->innerJoin('emc.user', 'u')
-            ->innerJoin('emc.energyTpe', 'et')
+        return $this->createQueryBuilder('edc')
+            ->select('edc', 'u', 'et')
+            ->innerJoin('edc.user', 'u')
+            ->innerJoin('edc.energyType', 'et')
             ->where('u.id = :userId')
-            ->andWhere('emc.createdAt > :dateFrom')
-            ->andWhere('emc.createdAt < :dateTo')
+            ->andWhere('edc.createdAt > :dateFrom')
+            ->andWhere('edc.createdAt < :dateTo')
             ->setParameter('userId', $user->getId())
             ->setParameter('dateFrom', $dateFrom->format('Y-m-d H:i:s'))
             ->setParameter('dateTo', $dateTo->format('Y-m-d H:i:s'))

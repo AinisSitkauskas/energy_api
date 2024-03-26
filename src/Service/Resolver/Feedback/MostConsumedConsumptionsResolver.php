@@ -11,17 +11,14 @@ class MostConsumedConsumptionsResolver
         unset($consumptions['total']);
 
         foreach ($consumptions as $key => $consumption) {
-            if ($consumption['diff'] < 0) {
+            if ($consumption['diff'] <= 0) {
                 unset($consumptions[$key]);
             }
         }
 
-        function sortByConsumptionDesc($a, $b): int
-        {
-            return $b['consumption'] <=> $a['consumption'];
-        }
-
-        usort($consumptions, 'sortByConsumptionDesc');
+        usort($consumptions, function ($a, $b) {
+            return $b['diff'] <=> $a['diff'];
+        });
 
         return $consumptions;
     }
