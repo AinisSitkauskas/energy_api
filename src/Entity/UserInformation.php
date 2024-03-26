@@ -43,7 +43,7 @@ class UserInformation
         return $this->id;
     }
 
-    public function setId(int $id): ?self
+    public function setId(int $id): self
     {
         $this->id = $id;
         
@@ -79,7 +79,7 @@ class UserInformation
         return $this->city;
     }
 
-    public function setCity(string $city): static
+    public function setCity(string $city): self
     {
         $this->city = $city;
 
@@ -91,7 +91,7 @@ class UserInformation
         return $this->residents;
     }
 
-    public function setResidents(int $residents): static
+    public function setResidents(int $residents): self
     {
         $this->residents = $residents;
 
@@ -103,7 +103,7 @@ class UserInformation
         return $this->houseType;
     }
 
-    public function setHouseType(?string $houseType): static
+    public function setHouseType(?string $houseType): self
     {
         $this->houseType = $houseType;
 
@@ -115,7 +115,7 @@ class UserInformation
         return $this->livingArea;
     }
 
-    public function setLivingArea(?int $livingArea): static
+    public function setLivingArea(?int $livingArea): self
     {
         $this->livingArea = $livingArea;
 

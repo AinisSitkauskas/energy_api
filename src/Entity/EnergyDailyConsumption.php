@@ -35,7 +35,7 @@ class EnergyDailyConsumption
         return $this->id;
     }
 
-    public function setId(int $id): ?self
+    public function setId(int $id): self
     {
         $this->id = $id;
         
@@ -71,7 +71,7 @@ class EnergyDailyConsumption
         return $this->consumption;
     }
 
-    public function setConsumption(float $consumption): static
+    public function setConsumption(float $consumption): self
     {
         $this->consumption = $consumption;
 
@@ -83,7 +83,7 @@ class EnergyDailyConsumption
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 

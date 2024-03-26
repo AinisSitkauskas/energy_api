@@ -23,7 +23,7 @@ class EnergyTypes
         return $this->id;
     }
     
-    public function setId(int $id): ?self
+    public function setId(int $id): self
     {
         $this->id = $id;
         
