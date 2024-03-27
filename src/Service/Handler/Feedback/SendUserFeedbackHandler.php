@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\Handler\Feedback;
 
+use App\Entity\UserGoals;
 use App\Entity\Users;
 use App\Repository\EnergyDailyConsumptionRepository;
+use App\Repository\UserGoalsRepository;
 use App\Repository\UserGroupEnergyConsumptionRepository;
 use App\Service\Formatter\Feedback\ConsumptionDataFormatter;
 use App\Service\Resolver\Feedback\ConsumptionDiffResolver;
@@ -20,6 +22,7 @@ class SendUserFeedbackHandler
         private readonly EnergyDailyConsumptionRepository $energyDailyConsumptionRepository,
         private readonly MostConsumedConsumptionsResolver $mostConsumedConsumptionsResolver,
         private readonly MostSavedConsumptionsResolver $mostSavedConsumptionsResolver,
+        private readonly UserGoalsRepository $userGoalsRepository,
         private readonly UserGroupEnergyConsumptionRepository $userGroupEnergyConsumptionRepository,
     ) {
     }
@@ -38,9 +41,10 @@ class SendUserFeedbackHandler
         $userGroupConsumptions = $this->userGroupEnergyConsumptionRepository->findUserGroupConsumptions($user);
 
         // TODO: Graph for user consumption
-        // TODO: Graph for user consumption
+        // TODO: Graph for users group consumption
 
-        // TODO: Goal setting getter
+        $userGoal = $this->userGoalsRepository->findOneBy(['user' => $user, 'status' => UserGoals::GOAL_STATUS_IN_PROGRESS]);
+
         // TODO: Advices to call API for advices
 
         // TODO: Html template build
