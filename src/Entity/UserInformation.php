@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserInformationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserInformationRepository::class)]
@@ -12,7 +13,16 @@ class UserInformation
 {
     PUBLIC const HOUSE_TYPE_PRIVATE = 'private';
     PUBLIC const HOUSE_TYPE_APARTMENT = 'apartment';
-    
+
+    PUBLIC const HEAT_TYPE_CENTRAL = 'central';
+    PUBLIC const HOUSE_TYPE_INDIVIDUAL = 'individual';
+
+    PUBLIC const FUEL_TYPE_NATURAL_GAS = 'natural_gas';
+    PUBLIC const FUEL_TYPE_FIREWOOD = 'firewood';
+    PUBLIC const FUEL_TYPE_COAL = 'coal';
+    PUBLIC const FUEL_TYPE_BRIQUETTES = 'briquettes';
+    PUBLIC const FUEL_TYPE_PROPANE_BHUTAN = 'propane_bhutan';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -37,6 +47,18 @@ class UserInformation
 
     #[ORM\Column(nullable: true)]
     private ?int $livingArea = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $heatType = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 1)]
+    private ?float $monthlyHeatConsumption;
+
+    #[ORM\Column(length: 255)]
+    private ?string $fuelType;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 1)]
+    private  ?string $fuelConsumption;
 
     public function getId(): ?int
     {
@@ -118,6 +140,54 @@ class UserInformation
     public function setLivingArea(?int $livingArea): self
     {
         $this->livingArea = $livingArea;
+
+        return $this;
+    }
+
+    public function getHeatType(): ?string
+    {
+        return $this->heatType;
+    }
+
+    public function setHeatType(?string $heatType): self
+    {
+        $this->heatType = $heatType;
+
+        return $this;
+    }
+
+    public function getMonthlyHeatConsumption(): ?float
+    {
+        return $this->monthlyHeatConsumption;
+    }
+
+    public function setMonthlyHeatConsumption(?float $monthlyHeatConsumption): self
+    {
+        $this->monthlyHeatConsumption = $monthlyHeatConsumption;
+
+        return $this;
+    }
+
+    public function getFuelType(): ?string
+    {
+        return $this->fuelType;
+    }
+
+    public function setFuelType(?string $fuelType): self
+    {
+        $this->fuelType = $fuelType;
+
+        return $this;
+    }
+
+    public function getFuelConsumption(): ?string
+    {
+        return $this->fuelConsumption;
+    }
+
+    public function setFuelConsumption(?string $fuelConsumption): self
+    {
+        $this->fuelConsumption = $fuelConsumption;
 
         return $this;
     }

@@ -18,6 +18,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "chart.js": "^4.4.2"
+        "@nesk/puphpeteer": "^2.0.0",
+        "chart.js": "^4.4.2",
+        "puppeteer": "^22.6.3"
     }
 }

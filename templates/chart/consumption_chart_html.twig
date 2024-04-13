@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<canvas id="myChart"></canvas>
+
+<script>
+    var data = JSON.parse('{{ data|raw }}'); // Your data here
+
+    window.onload = function() {
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        stacked: true,
+                        beginAtZero: true
+                    },
+                    y: {
+                        stacked: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            // Customize legend labels to include data values
+                            generateLabels: (chart) => {
+                                const datasets = chart.data.datasets;
+                                return datasets.map((dataset, i) => ({
+                                    text: `${dataset.label} ${dataset.data[0]} %`, // Combine label and data
+                                    fillStyle: dataset.backgroundColor,
+                                    strokeStyle: dataset.borderColor,
+                                    lineWidth: dataset.borderWidth,
+                                    hidden: !chart.getDataVisibility(i),
+                                    index: i
+                                }));
+                            }
+                        }
+                    }
+                },
+                maintainAspectRatio: false
+            }
+        };
+
+        new Chart(document.getElementById('myChart'), config);
+
+        setTimeout(() => {
+            var canvas = document.getElementById('myChart');
+            var imageDataUrl = canvas.toDataURL("image/png");
+
+            // Replace 'your-backend-endpoint' with the actual endpoint on your server
+            fetch('save-canvas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: imageDataUrl, image_name: data.imageName}),
+            })
+                .then(response => response.json())
+                .then(data => console.log('Success:', data))
+                .catch();
+        }, 3000); // Adjust delay as needed for chart to render
+    };
+</script>
+
+</body>
+</html>

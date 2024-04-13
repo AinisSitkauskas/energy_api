@@ -10,6 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EnergyTypesRepository::class)]
 class EnergyTypes
 {
+    public const FOOD_INDEX = 1;
+    public const ELECTRICITY_INDEX = 2;
+    public const WASTE_INDEX = 3;
+    public const SHOP_INDEX = 4;
+    public const TRANSPORT_INDEX = 5;
+    public const FUEL_INDEX = 6;
+    public const HEAT_INDEX = 7;
+    public const WATER_INDEX = 8;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
