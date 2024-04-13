@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\UsersRepository;
 use App\Service\Handler\Chart\GenerateUserEnergyConsumptionGraphHandler;
+use App\Service\Handler\Chart\GenerateUserGroupGraphHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,11 +26,29 @@ class ChartController extends AbstractController
 
         $data = $generateUserEnergyConsumptionGraphHandler->handle($user);
 
-        return $this->render('chart/consumption_chart_html.twig', [
+        return $this->render('chart/consumption_chart.html.twig', [
             'data' => json_encode($data),
         ]);
     }
 
+    #[Route('/chart/{userId}/generate-user-group-graph', name: 'generate_user_energy_consumption_graph')]
+    public function generateUserGroupGraphAction(
+        GenerateUserGroupGraphHandler $generateUserGroupGraphHandler,
+        int $userId,
+        UsersRepository $usersRepository
+    ): Response {
+        $user = $usersRepository->find($userId);
+
+        if (!$user) {
+            return new Response('USER NOT FOUND', Response::HTTP_BAD_REQUEST);
+        }
+
+        $data = $generateUserGroupGraphHandler->handle($user);
+
+        return $this->render('chart/energy_group_chart.html.twig', [
+            'data' => json_encode($data),
+        ]);
+    }
 
     #[Route('/chart/{userId}/save-canvas', name: 'save_canvas', methods: [
         Request::METHOD_POST

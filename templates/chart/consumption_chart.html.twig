@@ -8,7 +8,7 @@
 <canvas id="myChart"></canvas>
 
 <script>
-    var data = JSON.parse('{{ data|raw }}'); // Your data here
+    var data = JSON.parse('{{ data|raw }}');
 
     window.onload = function() {
         const config = {
@@ -55,7 +55,6 @@
             var canvas = document.getElementById('myChart');
             var imageDataUrl = canvas.toDataURL("image/png");
 
-            // Replace 'your-backend-endpoint' with the actual endpoint on your server
             fetch('save-canvas', {
                 method: 'POST',
                 headers: {
@@ -66,7 +65,7 @@
                 .then(response => response.json())
                 .then(data => console.log('Success:', data))
                 .catch();
-        }, 3000); // Adjust delay as needed for chart to render
+        }, 3000);
     };
 </script>
 
