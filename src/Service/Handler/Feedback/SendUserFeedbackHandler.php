@@ -9,6 +9,8 @@ use App\Entity\Users;
 use App\Repository\EnergyDailyConsumptionRepository;
 use App\Repository\UserGoalsRepository;
 use App\Repository\UserGroupEnergyConsumptionRepository;
+use App\Service\API\ChatGPTApi;
+use App\Service\Builder\Advice\AdviceMessageRequestBuilder;
 use App\Service\Formatter\Feedback\ConsumptionDataFormatter;
 use App\Service\Resolver\Feedback\ConsumptionDiffResolver;
 use App\Service\Resolver\Feedback\MostConsumedConsumptionsResolver;
@@ -17,6 +19,8 @@ use App\Service\Resolver\Feedback\MostSavedConsumptionsResolver;
 class SendUserFeedbackHandler
 {
     public function __construct(
+        private readonly AdviceMessageRequestBuilder $adviceMessageRequestBuilder,
+        private readonly ChatGPTApi $chatGPTApi,
         private readonly ConsumptionDataFormatter $consumptionDataFormatter,
         private readonly ConsumptionDiffResolver $consumptionDiffResolver,
         private readonly EnergyDailyConsumptionRepository $energyDailyConsumptionRepository,
@@ -46,6 +50,8 @@ class SendUserFeedbackHandler
         $userGoal = $this->userGoalsRepository->findOneBy(['user' => $user, 'status' => UserGoals::GOAL_STATUS_IN_PROGRESS]);
 
         // TODO: Advices to call API for advices
+        $adviceRequest = $this->adviceMessageRequestBuilder->build($user, $consumptions, $mostConsumedConsumptions, $mostSavedConsumptions);
+        $advices = $this->chatGPTApi->sendMessage($adviceRequest);
 
         // TODO: Html template build
         // TODO: Email sending
