@@ -15,9 +15,7 @@ class AdviceMessageRequestBuilder
         array $mostConsumedConsumptions,
         array $mostSavedConsumptions
     ): string {
-        $request = 'Reikia patarimų skirtų vartotojui sumažinti CO2 pėdsaką atsižvelgiant į gyvenamąją vietą ir jo CO2 pėdsako pokytį. Reikia ne daugiau 300 žodžių. ';
-
-        $request.= $this->buildUserInformation($user);
+        $request = $this->buildUserInformation($user);
         $request .= $this->buildByConsumption($consumptions, $mostConsumedConsumptions, $mostSavedConsumptions);
 
         return $request;
