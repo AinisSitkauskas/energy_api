@@ -33,7 +33,7 @@ class AdviceMessageRequestBuilder
 
         if ($userInformation->getHouseType()) {
             $request.= ' Vartotojas gyvena ';
-            $request.= $userInformation->getHouseType() === $userInformation::HOUSE_TYPE_INDIVIDUAL ? 'privačiame name. ' : 'daugiabutyje ';
+            $request.= $userInformation->getHouseType() === $userInformation::HOUSE_TYPE_INDIVIDUAL ? 'privačiame name. ' : 'daugiabutyje. ';
         }
 
         if ($userInformation->getResidents()) {
@@ -98,7 +98,7 @@ class AdviceMessageRequestBuilder
 
             foreach ($mostConsumedConsumptions as $mostConsumedConsumption) {
                 if ($n < 3) {
-                    $request .= $mostConsumedConsumption['title'] . ' padidejo ' . $mostConsumedConsumption['consumption'] . ' kg ';
+                    $request .= $mostConsumedConsumption['title'] . ' padidejo ' .  $mostConsumedConsumption['diff'] . ' kg ';
                 }
                 $n++;
             }
@@ -113,7 +113,7 @@ class AdviceMessageRequestBuilder
 
             foreach ($mostSavedConsumptions as $mostSavedConsumption) {
                 if ($n < 3) {
-                    $request .= $mostSavedConsumption['title'] . ' sumažėjo ' . $mostSavedConsumption['consumption'] * -1 . ' kg ';
+                    $request .= $mostSavedConsumption['title'] . ' sumažėjo ' . $mostSavedConsumption['diff'] * -1 . ' kg ';
                 }
 
                 $n++;

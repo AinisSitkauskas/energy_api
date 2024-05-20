@@ -27,7 +27,7 @@ class UserGroupChartDataBuilder
             $labels[] = $userGroupConsumption->getAverageConsumption();
             $data[] = $userGroupConsumption->getPercentage();
 
-            if ((round($consumptions['total']['consumption'] / 50) * 50) == $userGroupConsumption->getAverageConsumption()) {
+            if ((round($consumptions['total']['consumption'] / 25) * 25) == $userGroupConsumption->getAverageConsumption()) {
                 $backgroundColours[] = self::USER_BACKGROUND_COLOUR;
                 $borderColours[] = self::USER_BORDER_COLOUR;
             } else {

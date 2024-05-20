@@ -31,7 +31,7 @@ class ChartController extends AbstractController
         ]);
     }
 
-    #[Route('/chart/{userId}/generate-user-group-graph', name: 'generate_user_energy_consumption_graph')]
+    #[Route('/chart/{userId}/generate-user-group-graph', name: 'generate_user_group_graph')]
     public function generateUserGroupGraphAction(
         GenerateUserGroupGraphHandler $generateUserGroupGraphHandler,
         int $userId,

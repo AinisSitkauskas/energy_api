@@ -22,6 +22,7 @@ class UserInformation
     PUBLIC const FUEL_TYPE_COAL = 'coal';
     PUBLIC const FUEL_TYPE_BRIQUETTES = 'briquettes';
     PUBLIC const FUEL_TYPE_PROPANE_BHUTAN = 'propane_bhutan';
+    PUBLIC const FUEL_TYPE_ELECTRICITY = 'electricity';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

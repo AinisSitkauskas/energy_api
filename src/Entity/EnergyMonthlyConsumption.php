@@ -25,7 +25,7 @@ class EnergyMonthlyConsumption
     private ?EnergyTypes $energyType = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 1)]
-    private ?string $consumption = null;
+    private ?float $consumption = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $createdAt = null;
@@ -66,12 +66,12 @@ class EnergyMonthlyConsumption
         return $this;
     }
 
-    public function getConsumption(): ?string
+    public function getConsumption(): ?float
     {
         return $this->consumption;
     }
 
-    public function setConsumption(string $consumption): self
+    public function setConsumption(float $consumption): self
     {
         $this->consumption = $consumption;
 
