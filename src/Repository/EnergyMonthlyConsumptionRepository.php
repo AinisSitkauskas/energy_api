@@ -16,34 +16,20 @@ class EnergyMonthlyConsumptionRepository extends ServiceEntityRepository
         parent::__construct($registry, EnergyMonthlyConsumption::class);
     }
 
-    public function findLastByUserAndEnergyType(Users $user,int $energyType): ?EnergyMonthlyConsumption
+    public function findByUserAndEnergyType(Users $user, int $energyType, int $limit = 1)
     {
-        return $this->createQueryBuilder('emc')
+        $query = $this->createQueryBuilder('emc')
             ->select('emc')
-            ->innerJoin('edc.user', 'u')
-            ->innerJoin('edc.energyType', 'et')
+            ->innerJoin('emc.user', 'u')
+            ->innerJoin('emc.energyType', 'et')
             ->where('u.id = :userId')
             ->andWhere('et.id = :energyType')
             ->setParameter('userId', $user->getId())
             ->setParameter('energyType', $energyType)
             ->orderBy('emc.id', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
+            ->setMaxResults($limit)
+            ->getQuery();
 
-    public function findByUserAndEnergyType(Users $user,int $energyType): ?EnergyMonthlyConsumption
-    {
-        return $this->createQueryBuilder('emc')
-            ->select('emc')
-            ->innerJoin('edc.user', 'u')
-            ->innerJoin('edc.energyType', 'et')
-            ->where('u.id = :userId')
-            ->andWhere('et.id = :energyType')
-            ->setParameter('userId', $user->getId())
-            ->setParameter('energyType', $energyType)
-            ->orderBy('emc.id', 'DESC')
-            ->getQuery()
-            ->getResult();
+        return $limit > 1 ? $query->getResult() : $query->getOneOrNullResult();
     }
 }

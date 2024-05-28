@@ -14,4 +14,18 @@ class UserGroupByEnergyTypeConsumptionsRepository extends ServiceEntityRepositor
     {
         parent::__construct($registry, UserGroupByEnergyTypeConsumptions::class);
     }
+
+    public function findByUserGroupAndEnergyType(int $userGroup, int $energyType): ?UserGroupByEnergyTypeConsumptions
+    {
+        return $this->createQueryBuilder('uge')
+            ->select('uge')
+            ->innerJoin('uge.userGroup', 'ug')
+            ->innerJoin('uge.energyType', 'et')
+            ->where('ug.id = :userGroupId')
+            ->andWhere('et.id = :energyType')
+            ->setParameter('userGroupId', $userGroup)
+            ->setParameter('energyType', $energyType)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

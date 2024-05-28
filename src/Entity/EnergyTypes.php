@@ -19,6 +19,17 @@ class EnergyTypes
     public const HEAT_INDEX = 7;
     public const WATER_INDEX = 8;
 
+    public const ENERGY_TYPES = [
+        self::FOOD_INDEX,
+        self::ELECTRICITY_INDEX,
+        self::WASTE_INDEX,
+        self::SHOP_INDEX,
+        self::TRANSPORT_INDEX,
+        self::FUEL_INDEX,
+        self::HEAT_INDEX,
+        self::WATER_INDEX,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
