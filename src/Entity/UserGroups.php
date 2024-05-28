@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Entity;
 
 use App\Repository\UserGroupsRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserGroupsRepository::class)]
@@ -26,6 +27,12 @@ class UserGroups
 
     #[ORM\Column]
     private ?int $maxResidents = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 1)]
+    private ?float $averageConsumption = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 1)]
+    private ?float $minConsumption = null;
 
     public function getId(): ?int
     {
@@ -83,6 +90,30 @@ class UserGroups
     public function setMaxResidents(int $maxResidents): self
     {
         $this->maxResidents = $maxResidents;
+
+        return $this;
+    }
+
+    public function getAverageConsumption(): ?float
+    {
+        return $this->averageConsumption;
+    }
+
+    public function setAverageConsumption(?float $averageConsumption): self
+    {
+        $this->averageConsumption = $averageConsumption;
+
+        return $this;
+    }
+
+    public function getMinConsumption(): ?float
+    {
+        return $this->minConsumption;
+    }
+
+    public function setMinConsumption(?float $minConsumption): self
+    {
+        $this->minConsumption = $minConsumption;
 
         return $this;
     }

@@ -17,8 +17,10 @@ class ChatGPTApi
 
     public function sendMessage($message): string
     {
+        // Initiate Open AI client
         $client = OpenAI::client($_ENV['CHAP_GPT_API_KEY']);
 
+        // Create thread and run message
         $result = $client->threads()->createAndRun(
             [
                 'assistant_id' => $_ENV['CHAP_GPT_API_ASSISTANT_ID'],
@@ -36,6 +38,7 @@ class ChatGPTApi
 
         $timeLimit = new \Datetime('+30 seconds');
 
+        //checking if message finished
         while ((new \DateTime()) < $timeLimit) {
             $runCheck = $client->threads()->runs()->retrieve(
                 threadId: $result->threadId,
@@ -49,10 +52,12 @@ class ChatGPTApi
             sleep(1);
         }
 
+        // retrieving response
         $response = $client->threads()->messages()->list($result->threadId, [
             'limit' => 2,
         ]);
 
+        // returning message content
         return $response->data[0]->content[0]->text['value'] ?? '';
     }
 }
