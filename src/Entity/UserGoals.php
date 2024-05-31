@@ -40,10 +40,20 @@ class UserGoals
     private ?int $percentage = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $dateFrom = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $dateTo = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $updatedAt = null;
+
+    private bool $isGoodProgress;
+
+    private string $progressMessage;
 
     public function getId(): ?int
     {
@@ -129,6 +139,31 @@ class UserGoals
         return $this;
     }
 
+    public function getDateFrom(): ?\DateTimeInterface
+    {
+        return $this->dateFrom;
+    }
+
+    public function setDateFrom(?\DateTimeInterface $dateFrom): self
+    {
+        $this->dateFrom = $dateFrom;
+
+        return $this;
+    }
+
+    public function getDateTo(): ?\DateTimeInterface
+    {
+        return $this->dateTo;
+    }
+
+    public function setDateTo(?\DateTimeInterface $dateTo): self
+    {
+        $this->dateTo = $dateTo;
+
+        return $this;
+    }
+
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -151,5 +186,25 @@ class UserGoals
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function isGoodProgress(): bool
+    {
+        return $this->isGoodProgress;
+    }
+
+    public function setIsGoodProgress(bool $isGoodProgress): void
+    {
+        $this->isGoodProgress = $isGoodProgress;
+    }
+
+    public function getProgressMessage(): string
+    {
+        return $this->progressMessage;
+    }
+
+    public function setProgressMessage(string $progressMessage): void
+    {
+        $this->progressMessage = $progressMessage;
     }
 }
