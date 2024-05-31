@@ -13,8 +13,7 @@ class UserGoals
 {
     public const GOAL_STATUS_IN_PROGRESS = 'in_progress';
     public const GOAL_STATUS_WAITING = 'waiting';
-    public const GOAL_STATUS_SUCCESS = 'success';
-    public const GOAL_STATUS_FAIL = 'fail';
+    public const GOAL_STATUS_FINISHED = 'finished';
 
     public const USER_GOALS = [
         self::GOAL_5_PERCENT,
