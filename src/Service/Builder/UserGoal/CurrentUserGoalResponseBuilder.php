@@ -16,6 +16,7 @@ class CurrentUserGoalResponseBuilder
             'date_to' => $userGoal->getDateTo()->format('Y-m-d'),
             'goal' => $userGoal->getGoal(),
             'consumption' => $userGoal->getConsumption(),
+            'status' => $userGoal->getStatus(),
             'is_good_progress' => $userGoal->getConsumption(),
             'progress_message' => $userGoal->getProgressMessage(),
             'updated_at' => $userGoal->getUpdatedAt()->format('Y-m-d H:i:s'),

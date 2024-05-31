@@ -25,6 +25,12 @@ class GenerateUserGoalsHandler
 
     public function handle(Users $user): array
     {
+        $userGoals = $this->userGoalsRepository->findBy(['user' => $user, 'status' => UserGoals::GOAL_STATUS_WAITING]);
+
+        if ($userGoals) {
+            return $this->generatedUserGoalsResponseBuilder->build($userGoals);
+        }
+
         $predictedConsumption = $this->nextMonthsConsumptionCalculator->calculate($user);
 
         foreach (UserGoals::USER_GOALS as $userGoal) {

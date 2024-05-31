@@ -8,6 +8,7 @@ use App\Repository\UserGoalsRepository;
 use App\Repository\UsersRepository;
 use App\Service\Handler\UserGoal\ConfirmUserGoalsHandler;
 use App\Service\Handler\UserGoal\GenerateUserGoalsHandler;
+use App\Service\Handler\UserGoal\GetUserGoalsHandler;
 use App\Service\Validator\User\UserRequestValidator;
 use App\Service\Validator\UserGoal\UserGoalConfirmValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,7 @@ class UserGoalsController extends AbstractController
         $user = $usersRepository->find($data['user_id']);
 
         if (!$user) {
-            return new Response('USER NOT FOUND', Response::HTTP_BAD_REQUEST);
+            return new Response('USER NOT FOUND', Response::HTTP_NOT_FOUND);
         }
 
         try {
@@ -67,17 +68,40 @@ class UserGoalsController extends AbstractController
         $user = $usersRepository->find($data['user_id']);
 
         if (!$user) {
-            return new Response('USER NOT FOUND', Response::HTTP_BAD_REQUEST);
+            return new Response('USER NOT FOUND', Response::HTTP_NOT_FOUND);
         }
 
         $userGoal = $usersGoalRepository->findOneBy(['user' => $user, 'percentage' => $data['percentage']]);
 
         if (!$userGoal) {
-            return new Response('USER GOAL NOT FOUND', Response::HTTP_BAD_REQUEST);
+            return new Response('USER GOAL NOT FOUND', Response::HTTP_NOT_FOUND);
         }
 
         try {
             $result = $confirmUserGoalsHandler->handle($userGoal, $user);
+            return new Response(json_encode($result), Response::HTTP_OK);
+
+        } catch (\Exception $e) {
+            return new Response('ERROR: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('/user-goals/{userId}', name: 'get_user_goals', methods: [
+        Request::METHOD_GET
+    ])]
+    public function getUserGoalsAction(
+        int $userId,
+        GetUserGoalsHandler $getUserGoalsHandler,
+        UsersRepository $usersRepository,
+    ): Response {
+        $user = $usersRepository->find($userId);
+
+        if (!$user) {
+            return new Response('USER NOT FOUND', Response::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $result = $getUserGoalsHandler->handle($user);
             return new Response(json_encode($result), Response::HTTP_OK);
 
         } catch (\Exception $e) {
