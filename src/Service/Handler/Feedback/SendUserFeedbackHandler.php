@@ -11,10 +11,14 @@ use App\Repository\UserGoalsRepository;
 use App\Repository\UserGroupEnergyConsumptionRepository;
 use App\Service\API\ChatGPTApi;
 use App\Service\Builder\Advice\AdviceMessageRequestBuilder;
+use App\Service\Builder\Email\EmailTemplateBuilder;
+use App\Service\Calculator\UserPositionByUserGroupCalculator;
 use App\Service\Formatter\Feedback\ConsumptionDataFormatter;
+use App\Service\Handler\UserGoal\UserGoalProgressResolver;
 use App\Service\Resolver\Feedback\ConsumptionDiffResolver;
 use App\Service\Resolver\Feedback\MostConsumedConsumptionsResolver;
 use App\Service\Resolver\Feedback\MostSavedConsumptionsResolver;
+use App\Service\Sender\EmailSender;
 
 class SendUserFeedbackHandler
 {
@@ -23,11 +27,15 @@ class SendUserFeedbackHandler
         private readonly ChatGPTApi $chatGPTApi,
         private readonly ConsumptionDataFormatter $consumptionDataFormatter,
         private readonly ConsumptionDiffResolver $consumptionDiffResolver,
+        private readonly EmailSender $emailSender,
         private readonly EnergyDailyConsumptionRepository $energyDailyConsumptionRepository,
+        private readonly EmailTemplateBuilder $emailTemplateBuilder,
         private readonly MostConsumedConsumptionsResolver $mostConsumedConsumptionsResolver,
         private readonly MostSavedConsumptionsResolver $mostSavedConsumptionsResolver,
+        private readonly UserGoalProgressResolver $userGoalProgressResolver,
         private readonly UserGoalsRepository $userGoalsRepository,
         private readonly UserGroupEnergyConsumptionRepository $userGroupEnergyConsumptionRepository,
+        private readonly UserPositionByUserGroupCalculator $userPositionByUserGroupCalculator,
     ) {
     }
 
@@ -43,17 +51,27 @@ class SendUserFeedbackHandler
         $mostSavedConsumptions = $this->mostSavedConsumptionsResolver->resolve($consumptions);
 
         $userGroupConsumptions = $this->userGroupEnergyConsumptionRepository->findUserGroupConsumptions($user);
-
-        // TODO: Graph for user consumption
-        // TODO: Graph for users group consumption
+        $userGroupPosition = $this->userPositionByUserGroupCalculator->calculate($consumptions, $userGroupConsumptions);
 
         $userGoal = $this->userGoalsRepository->findOneBy(['user' => $user, 'status' => UserGoals::GOAL_STATUS_IN_PROGRESS]);
 
-        // TODO: Advices to call API for advices
+        if ($userGoal) {
+            $userGoal = $this->userGoalProgressResolver->resolve($userGoal);
+        }
+
         $adviceRequest = $this->adviceMessageRequestBuilder->build($user, $consumptions, $mostConsumedConsumptions, $mostSavedConsumptions);
         $advices = $this->chatGPTApi->sendMessage($adviceRequest);
 
-        // TODO: Html template build
-        // TODO: Email sending
+        $emailContent = $this->emailTemplateBuilder->build(
+            $user,
+            $consumptions,
+            $mostSavedConsumptions,
+            $mostConsumedConsumptions,
+            $userGroupPosition,
+            $userGoal,
+            $advices
+        );
+
+        $this->emailSender->send($user, $emailContent);
     }
 }
