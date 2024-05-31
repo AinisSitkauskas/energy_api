@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Calculator;
+namespace App\Service\Calculator\UserGroup;
 
 use App\Entity\UserGroupEnergyConsumption;
 

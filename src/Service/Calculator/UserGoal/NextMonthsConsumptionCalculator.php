@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Service\Calculator;
+namespace App\Service\Calculator\UserGoal;
 
 use App\Entity\EnergyMonthlyConsumption;
 use App\Entity\EnergyTypes;

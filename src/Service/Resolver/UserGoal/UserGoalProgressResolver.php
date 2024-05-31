@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Handler\UserGoal;
+namespace App\Service\Resolver\UserGoal;
 
 use App\Entity\UserGoals;
 

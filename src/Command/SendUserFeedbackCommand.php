@@ -11,6 +11,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'app:send-user-feedback')]
 class SendUserFeedbackCommand extends Command
 {
     public function __construct(
@@ -20,7 +21,6 @@ class SendUserFeedbackCommand extends Command
         parent::__construct();
     }
 
-    #[AsCommand(name: 'app:send-user-feedback')]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $users = $this->usersRepository->findBy(['hasFeedbackReport' => true]);

@@ -12,12 +12,12 @@ use App\Repository\UserGroupEnergyConsumptionRepository;
 use App\Service\API\ChatGPTApi;
 use App\Service\Builder\Advice\AdviceMessageRequestBuilder;
 use App\Service\Builder\Email\EmailTemplateBuilder;
-use App\Service\Calculator\UserPositionByUserGroupCalculator;
+use App\Service\Calculator\UserGroup\UserPositionByUserGroupCalculator;
 use App\Service\Formatter\Feedback\ConsumptionDataFormatter;
-use App\Service\Handler\UserGoal\UserGoalProgressResolver;
 use App\Service\Resolver\Feedback\ConsumptionDiffResolver;
 use App\Service\Resolver\Feedback\MostConsumedConsumptionsResolver;
 use App\Service\Resolver\Feedback\MostSavedConsumptionsResolver;
+use App\Service\Resolver\UserGoal\UserGoalProgressResolver;
 use App\Service\Sender\EmailSender;
 
 class SendUserFeedbackHandler

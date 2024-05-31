@@ -11,10 +11,21 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: UserGoalsRepository::class)]
 class UserGoals
 {
-    public const GOAL_STATUS_ACTIVE = 'active';
     public const GOAL_STATUS_IN_PROGRESS = 'in_progress';
-    public const GOAL_STATUS_IN_SUCCESS = 'success';
+    public const GOAL_STATUS_WAITING = 'waiting';
+    public const GOAL_STATUS_SUCCESS = 'success';
     public const GOAL_STATUS_FAIL = 'fail';
+
+    public const USER_GOALS = [
+        self::GOAL_5_PERCENT,
+        self::GOAL_10_PERCENT,
+        self::GOAL_15_PERCENT,
+    ];
+
+    public const GOAL_5_PERCENT = 5;
+    public const GOAL_10_PERCENT = 10;
+    public const GOAL_15_PERCENT = 15;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -28,13 +39,13 @@ class UserGoals
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 2)]
-    private ?string $predictedConsumption = null;
+    private ?float $predictedConsumption = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 2, options: ["default" => 0])]
-    private ?string $consumption = null;
+    private ?float $consumption = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 13, scale: 2)]
-    private ?string $goal = null;
+    private ?float $goal = null;
 
     #[ORM\Column]
     private ?int $percentage = null;
@@ -91,36 +102,36 @@ class UserGoals
         return $this;
     }
 
-    public function getPredictedConsumption(): ?string
+    public function getPredictedConsumption(): ?float
     {
         return $this->predictedConsumption;
     }
 
-    public function setPredictedConsumption(string $predictedConsumption): self
+    public function setPredictedConsumption(float $predictedConsumption): self
     {
         $this->predictedConsumption = $predictedConsumption;
 
         return $this;
     }
 
-    public function getConsumption(): ?string
+    public function getConsumption(): ?float
     {
         return $this->consumption;
     }
 
-    public function setConsumption(string $consumption): self
+    public function setConsumption(float $consumption): self
     {
         $this->consumption = $consumption;
 
         return $this;
     }
 
-    public function getGoal(): ?string
+    public function getGoal(): ?float
     {
         return $this->goal;
     }
 
-    public function setGoal(string $goal): self
+    public function setGoal(float $goal): self
     {
         $this->goal = $goal;
 
