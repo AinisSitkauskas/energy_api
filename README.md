@@ -25,7 +25,7 @@ To set up the project locally, follow these steps:
 
 ## Commands for feedback report
 
-**Send users feedback command**
+**Send users feedback**
    - **Description:** Sends users energy feedback reports
    - **Usage:**
      ```bash
@@ -34,16 +34,44 @@ To set up the project locally, follow these steps:
 
 ## Commands for user goal setting
 
-1. **Updates user goals command command**
+1. **Updates user goals**
    - **Description:** Updates users goals based on previuos day consumptions'
    - **Usage:**
      ```bash
      php bin/console app:update-user-goals
      ```
 
-2. **Clear user goal command**
+2. **Clear user goals**
    - **Description:** Clears user goals on status 'waiting'
    - **Usage:**
      ```bash
      php bin/console app:clear-user-goals
+     ```
+## Endpoints for goal setting functionality on mobile app
+
+1. **Get user Goal**
+   - **Method:** `GET`
+   - **Path:** `/user-goals/{userId}`
+   - **Description:** Retrieve last selected user goal.
+   - **Example Request:**
+     ```bash
+     curl -X GET http://localhost:8000/user-goals/1
+     ```
+
+2. **Generate User Goals**
+   - **Method:** `POST`
+   - **Path:** `/user-goals/generate`
+   - **Description:** Generates user new goals.
+   - **Example Request:**
+     ```bash
+     curl -X POST http://localhost:8000/user-goals/generate -d '{"user_id":1}'
+     ```
+
+3. **Confirm User Goal**
+   - **Method:** `POST`
+   - **Path:** `/user-goals/confirm`
+   - **Description:** Confirms user selected goal.
+   - **Example Request:**
+     ```bash
+     curl -X POST http://localhost:8000/user-goals/confirm -d '{"user_id":1, "percentage":5}'
      ```
