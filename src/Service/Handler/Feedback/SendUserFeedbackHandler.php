@@ -62,14 +62,21 @@ class SendUserFeedbackHandler
         $adviceRequest = $this->adviceMessageRequestBuilder->build($user, $consumptions);
         $advices = $this->chatGPTApi->sendMessage($adviceRequest);
 
+        $consumptionChartData = file_get_contents('public/' . $user->getId() . '_' . (new \DateTime())->format('Y-m-d') . '.png');
+        $consumptionChart = 'data:image/png;base64,' . base64_encode($consumptionChartData);
+
+        $userGroupChartData = file_get_contents('public/' . $user->getId() . '_' . (new \DateTime())->format('Y-m-d') . '_user_group.png');
+        $userGroupChartChart = 'data:image/png;base64,' . base64_encode($userGroupChartData);
+
         $emailContent = $this->emailTemplateBuilder->build(
-            $user,
             $consumptions,
             $mostSavedConsumptions,
             $mostConsumedConsumptions,
             $userGroupPosition,
             $userGoal,
-            $advices
+            $advices,
+            $consumptionChart,
+            $userGroupChartChart
         );
 
         $this->emailSender->send($user, $emailContent);
