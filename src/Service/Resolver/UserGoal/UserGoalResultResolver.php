@@ -8,8 +8,8 @@ use App\Entity\UserGoals;
 
 class UserGoalResultResolver
 {
-    public const GOOD_RESULT = 'Jums pavyko sumažinti savo CO2 pėdsaką %d';
-    public const REDUCED_RESULT = 'Jums nepavyko pasiekti tikslo, tačiau jūs sumažinote savo CO2 pėdsaką %d . Toliau prisidėkite prie emisijos mažinimo ir siūlome pasirinkti naują tikslą.';
+    public const GOOD_RESULT = 'Jums pavyko sumažinti savo CO2 pėdsaką %d kg';
+    public const REDUCED_RESULT = 'Jums nepavyko pasiekti tikslo, tačiau jūs sumažinote savo CO2 pėdsaką %d kg. Toliau prisidėkite prie emisijos mažinimo ir siūlome pasirinkti naują tikslą.';
     public const BAD_RESULT = 'Jums nepavyko pasiekti tikslo. Siūlome pasiskaityti mūsų rekomendacinius patarimus ir mėginti dar kartą nusistatyti sau naują tikslą.';
 
     public function resolve(UserGoals $userGoal): UserGoals
