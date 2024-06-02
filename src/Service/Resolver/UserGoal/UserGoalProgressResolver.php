@@ -25,12 +25,12 @@ class UserGoalProgressResolver
         }
 
         $goalDays = $dateTo->diff($dateFrom, true);
-        $oneDayGoal = $userGoal->getGoal() / $goalDays->d;
+        $oneDayGoal = $userGoal->getGoal() / $goalDays->days;
 
         $currentDaysInProgress = $currentDay->diff($dateFrom, true);
-        $predictedConsumption = $currentDaysInProgress->d * $oneDayGoal;
+        $predictedConsumption = $currentDaysInProgress->days * $oneDayGoal;
 
-        if ($predictedConsumption <= $userGoal->getConsumption()) {
+        if ($predictedConsumption >= $userGoal->getConsumption()) {
             $userGoal->setIsGoodProgress(true);
             $userGoal->setProgressMessage(round($predictedConsumption, 2) . self::GOOD_PROGRESS);
         } else {
