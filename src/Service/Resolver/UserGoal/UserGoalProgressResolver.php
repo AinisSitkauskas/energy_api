@@ -32,10 +32,10 @@ class UserGoalProgressResolver
 
         if ($predictedConsumption >= $userGoal->getConsumption()) {
             $userGoal->setIsGoodProgress(true);
-            $userGoal->setProgressMessage(round($predictedConsumption, 2) . self::GOOD_PROGRESS);
+            $userGoal->setProgressMessage(round($predictedConsumption - $userGoal->getConsumption(), 2) . self::GOOD_PROGRESS);
         } else {
             $userGoal->setIsGoodProgress(false);
-            $userGoal->setProgressMessage(round($predictedConsumption, 2) . self::BAD_PROGRESS);
+            $userGoal->setProgressMessage(round($userGoal->getConsumption() - $predictedConsumption, 2) . self::BAD_PROGRESS);
         }
 
         return $userGoal;
