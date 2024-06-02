@@ -17,10 +17,17 @@ class UserGoalProgressResolver
         $dateTo = $userGoal->getDateTo();
         $currentDay = new \DateTime();
 
-        $goalDays = $dateTo->diff($dateFrom);
+        if ($userGoal->getDateFrom()->format('Y-m-d') === $currentDay->format('Y-m-d')) {
+            $userGoal->setIsGoodProgress(true);
+            $userGoal->setProgressMessage(0 . self::GOOD_PROGRESS);
+
+            return $userGoal;
+        }
+
+        $goalDays = $dateTo->diff($dateFrom, true);
         $oneDayGoal = $userGoal->getGoal() / $goalDays->d;
 
-        $currentDaysInProgress = $currentDay->diff($dateFrom);
+        $currentDaysInProgress = $currentDay->diff($dateFrom, true);
         $predictedConsumption = $currentDaysInProgress->d * $oneDayGoal;
 
         if ($predictedConsumption <= $userGoal->getConsumption()) {
