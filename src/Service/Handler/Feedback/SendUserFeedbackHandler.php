@@ -59,7 +59,7 @@ class SendUserFeedbackHandler
             $userGoal = $this->userGoalProgressResolver->resolve($userGoal);
         }
 
-        $adviceRequest = $this->adviceMessageRequestBuilder->build($user, $consumptions, $mostConsumedConsumptions, $mostSavedConsumptions);
+        $adviceRequest = $this->adviceMessageRequestBuilder->build($user, $consumptions);
         $advices = $this->chatGPTApi->sendMessage($adviceRequest);
 
         $emailContent = $this->emailTemplateBuilder->build(

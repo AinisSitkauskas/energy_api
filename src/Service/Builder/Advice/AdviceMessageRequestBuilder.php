@@ -4,123 +4,53 @@ declare(strict_types=1);
 
 namespace App\Service\Builder\Advice;
 
+use App\Entity\EnergyTypes;
 use App\Entity\UserInformation;
 use App\Entity\Users;
 
 class AdviceMessageRequestBuilder
 {
-    public function build(
-        Users $user,
-        array $consumptions,
-        array $mostConsumedConsumptions,
-        array $mostSavedConsumptions
-    ): string {
-        $request = $this->buildUserInformation($user);
-        $request .= $this->buildByConsumption($consumptions, $mostConsumedConsumptions, $mostSavedConsumptions);
+    public const HEATING_MONTHS = [
+        '01' => 'yes',
+        '02' => 'yes',
+        '03' => 'yes',
+        '04' => 'yes',
+        '05' => 'yes',
+        '06' => 'no',
+        '07' => 'no',
+        '08' => 'no',
+        '09' => 'no',
+        '10' => 'yes',
+        '11' => 'yes',
+        '12' => 'yes',
+    ];
 
-        return $request;
-    }
-
-    private function buildUserInformation(Users $user): string
+    public function build(Users $user, array $consumptions): string
     {
-        $request = '';
-
         $userInformation = $user->getUserInformation();
 
-        if ($userInformation->getCity()) {
-            $request.= ' Vartotojas gyvena ' . $userInformation->getCity() . ' Lietuva. ';
+        $request = 'Lives=' . $userInformation->getCity() . " \n";
+        $request .= 'Building=' . $userInformation->getHouseType() === $userInformation::HOUSE_TYPE_PRIVATE ? 'Private_house' . " \n" : 'Multiflat' . " \n";
+        $request .= 'Persons=' . $userInformation->getResidents() . " \n";
+        $request .= 'Living_space=' . $userInformation->getLivingArea() . " \n";
+        $request .= 'Living_space=' . $userInformation->getLivingArea() . " \n";
+
+        $now = new \DateTime();
+        $monthTitle = $now->format('F');
+        $request .= 'Month=' . $monthTitle . " \n";
+
+        $month = $now->format('m');
+        $request .= 'Month=' . self::HEATING_MONTHS[$month] . " \n";
+
+        $request .= 'Previous_electricity_consumption_household=' . $consumptions[EnergyTypes::ELECTRICITY_INDEX]['consumption'] . " \n";
+        $request .= 'Previous_heat_consumption_TFA=' . $consumptions[EnergyTypes::HEAT_INDEX]['consumption'] . " \n";
+        if ($userInformation->getFuelType() === UserInformation::FUEL_TYPE_NATURAL_GAS) {
+            $request .= 'Previous_gas_consumption_TFA=' . $consumptions[EnergyTypes::HEAT_INDEX]['consumption'] . " \n";
+        } else {
+            $request .= 'Previous_gas_consumption_TFA=0' . " \n";
         }
 
-        if ($userInformation->getHouseType()) {
-            $request.= ' Vartotojas gyvena ';
-            $request.= $userInformation->getHouseType() === $userInformation::HOUSE_TYPE_INDIVIDUAL ? 'privačiame name. ' : 'daugiabutyje. ';
-        }
-
-        if ($userInformation->getResidents()) {
-            $request.= ' Vartotojas gyvena ' . $userInformation->getResidents() . ' asmenų šeimoje. ';
-        }
-
-        if ($userInformation->getLivingArea()) {
-            $request.= ' Vartotojo gyvenamasis plotas ' . $userInformation->getLivingArea() . ' m2 ';
-        }
-
-        if ($userInformation->getHeatType()) {
-            $request.= $userInformation->getHeatType() === UserInformation::HEAT_TYPE_CENTRAL ? ' Vartotojas naudojasi centriniu šildymu. ' : ' Vartotojas šildosi individualiai ';
-        }
-
-        if ($userInformation->getFuelType()) {
-            $fuelType = '';
-            switch ($userInformation->getFuelType()) {
-                case UserInformation::FUEL_TYPE_NATURAL_GAS:
-                    $fuelType = 'gamtinės dujos';
-                    break;
-                case UserInformation::FUEL_TYPE_FIREWOOD:
-                    $fuelType = 'malkos';
-                    break;
-                case UserInformation::FUEL_TYPE_COAL:
-                    $fuelType = 'anglys';
-                    break;
-                case UserInformation::FUEL_TYPE_BRIQUETTES:
-                    $fuelType = 'briketai';
-                    break;
-                case UserInformation::FUEL_TYPE_PROPANE_BHUTAN:
-                    $fuelType = 'propanas arba butanas';
-                    break;
-            }
-
-            if ($fuelType) {
-                $request .= ' Vartotojo kuro tipas - ' . $fuelType . '. ';
-            }
-        }
-
-        return $request;
-    }
-
-    private function buildByConsumption(
-        array $consumptions,
-        array $mostConsumedConsumptions,
-        array $mostSavedConsumptions
-    ): string {
-        $request = 'Praeitos savaitės vartotojo CO2 pėdsakas: ';
-
-        foreach ($consumptions as $key => $consumption) {
-            if ($consumption['consumption'] && $key !== 'total') {
-                $request .= $consumption['title'] . ' ' . $consumption['consumption'] . ' kg ';
-            }
-        }
-
-        $request .= '. ';
-
-        if ($mostConsumedConsumptions) {
-            $request.= 'Šių energijos tipų CO2 pedsakas padidėjo: ';
-
-            $n = 0;
-
-            foreach ($mostConsumedConsumptions as $mostConsumedConsumption) {
-                if ($n < 3) {
-                    $request .= $mostConsumedConsumption['title'] . ' padidejo ' .  $mostConsumedConsumption['diff'] . ' kg ';
-                }
-                $n++;
-            }
-
-            $request.= '. ';
-        }
-
-        if ($mostSavedConsumptions) {
-            $request.= 'Šių energijos tipų CO2 pėdsakas sumažėjo: ';
-
-            $n = 0;
-
-            foreach ($mostSavedConsumptions as $mostSavedConsumption) {
-                if ($n < 3) {
-                    $request .= $mostSavedConsumption['title'] . ' sumažėjo ' . $mostSavedConsumption['diff'] * -1 . ' kg ';
-                }
-
-                $n++;
-            }
-
-            $request.= '. ';
-        }
+        $request .= 'Previous_car_fuel=' . $consumptions[EnergyTypes::FUEL_INDEX]['consumption'] . " \n";
 
         return $request;
     }
