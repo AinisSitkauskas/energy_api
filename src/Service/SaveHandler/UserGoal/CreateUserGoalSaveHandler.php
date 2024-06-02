@@ -25,10 +25,13 @@ class CreateUserGoalSaveHandler
         $userGoal->setUser($user);
         $userGoal->setGoal($goal);
         $userGoal->setPredictedConsumption($predictedConsumption);
+        $userGoal->setConsumption(0);
         $userGoal->setPercentage($percentage);
         $userGoal->setStatus(UserGoals::GOAL_STATUS_WAITING);
         $userGoal->setDateFrom((new \DateTime())->setTime(0, 0));
         $userGoal->setDateTo((new \DateTime('+1 month'))->setTime(0, 0));
+        $userGoal->setCreatedAt(new \DateTime());
+        $userGoal->setUpdatedAt(new \DateTime());
 
         $this->em->persist($userGoal);
         $this->em->flush();
